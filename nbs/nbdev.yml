@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "unstably-diffused"
+  site-url: "https://stroopwafl.github.io/unstably-diffused"
+  description: "Research tools for stable diffusion"
+  repo-branch: main
+  repo-url: "https://github.com/stroopwafl/unstably-diffused"
