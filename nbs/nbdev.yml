@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "unstably-diffused"
-  site-url: "https://stroopwafl.github.io/unstably-diffused"
-  description: "Research tools for stable diffusion"
+  title: "toolformer"
+  site-url: "https://stroopwafl.github.io/toolformer"
+  description: "An unofficial implementation of 'Toolformer: Language Models Can Teach Themselves to Use Tools' (Schick et al., 2023)"
   repo-branch: main
-  repo-url: "https://github.com/stroopwafl/unstably-diffused"
+  repo-url: "https://github.com/stroopwafl/toolformer"
