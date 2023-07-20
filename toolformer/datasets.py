@@ -11,7 +11,6 @@ from glob import glob
 from torch import tensor, nn, optim
 import torch.nn.functional as F
 from datasets import load_dataset
-import torchvision.transforms.functional as TF
 from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, default_collate
 from torcheval.metrics import MulticlassAccuracy

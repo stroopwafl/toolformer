@@ -27,7 +27,6 @@ from fairscale.nn.model_parallel.layers import (
 )
 from fairscale.nn.model_parallel.mappings import scatter_to_model_parallel_region, gather_from_model_parallel_region
 from fairscale.nn.model_parallel.initialize import initialize_model_parallel
-from transformers import AutoTokenizer, AutoModel
 import re
 import fastcore.all as fc
 from einops import rearrange
