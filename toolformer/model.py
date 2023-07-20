@@ -288,7 +288,7 @@ class Transformer(nn.Module):
         )
 
     # @torch.inference_mode()
-    def forward(self, tokens: torch.Tensor, start_pos: int):
+    def forward(self, tokens: torch.Tensor, start_pos: int, last_logits_only=False):
         _bsz, seqlen = tokens.shape
         h = self.tok_embeddings(tokens)  # (bsz, partial_seqlen, dim)
         self.freqs_cis = self.freqs_cis.to(h.device)
@@ -304,13 +304,14 @@ class Transformer(nn.Module):
             
         h = self.norm(h)
         output = self.output(h)
+        if last_logits_only: return output.float()[:,-1,:]
         return output.float()
 
 # %% ../nbs/01_model.ipynb 14
 def sample_top_p(probs, p):
-    if len(probs.shape) == 3 and probs.shape[-1]*probs.shape[-2] >= 2**24:
-        probs = probs[:,-1,:]
-    else: probs = rearrange(probs, 'n s d -> n (s d)')
+    # if len(probs.shape) == 3 and probs.shape[-1]*probs.shape[-2] >= 2**24:
+    #     probs = probs[:,-1,:]
+    # else: probs = rearrange(probs, 'n s d -> n (s d)')
     probs_sort, probs_idx = torch.sort(probs, dim=-1, descending=True)
     probs_sum = torch.cumsum(probs_sort, dim=-1)
     mask = probs_sum - probs_sort > p

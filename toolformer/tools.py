@@ -6,10 +6,7 @@ __all__ = ['Calendar', 'Calculator']
 # %% ../nbs/03_tools.ipynb 2
 import requests
 import calendar
-import wolframalpha
 import datetime
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from operator import pow, truediv, mul, add, sub
 import os
 
 # %% ../nbs/03_tools.ipynb 3
