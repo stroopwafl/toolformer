@@ -17,7 +17,7 @@ from torch.utils.data import DataLoader, default_collate
 from torcheval.metrics import MulticlassAccuracy
 from torch.nn import init
 from torch.nn.utils.rnn import pad_sequence
-from typing import List
+from typing import List, Optional
 
 from datetime import datetime, timedelta
 import calendar
