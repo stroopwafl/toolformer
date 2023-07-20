@@ -13,7 +13,6 @@ import torch.nn.functional as F
 from datasets import load_dataset
 from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, default_collate
-from torcheval.metrics import MulticlassAccuracy
 from torch.nn import init
 from torch.nn.utils.rnn import pad_sequence
 from typing import List, Optional
