@@ -10,16 +10,13 @@ from glob import glob
 
 from torch import tensor, nn, optim
 import torch.nn.functional as F
-from datasets import load_dataset
-import torchvision.transforms.functional as TF
 from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, default_collate
-from torcheval.metrics import MulticlassAccuracy
 from torch.nn import init
 from torch.nn.utils.rnn import pad_sequence
 
 # %% auto 0
-__all__ = ['get_gen', 'set_grads', 'save_model_weights', 'load_lora_weights', 'finetune']
+__all__ = ['get_gen', 'set_grads', 'save_model_weights', 'load_lora_weights', 'finetune', 'FinetuneDS']
 
 # %% ../nbs/06_finetune.ipynb 3
 def get_gen(l):
@@ -72,3 +69,12 @@ def finetune(model, dataset, save_path, lr=1e-5, epochs=10, bs=1, opt_func=optim
 
     set_grads(self.model, set_grads_to=False, lora=lora)
     save_model_weights(save_path, self.model, lora=lora)
+
+# %% ../nbs/06_finetune.ipynb 8
+class FinetuneDS:
+    def __init__(self, prompts:List[str]): fc.store_attr()
+    def __len__(self): return len(self.prompts)
+    def __getitem__(self, i): 
+        prompt = self.prompts[i]
+        tokens = tokenizer.encode(prompt, bos=True, eos=True)
+        return torch.tensor(tokens)
