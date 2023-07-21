@@ -6,6 +6,7 @@ from toolformer.model import *
 from toolformer.tokenizer import *
 from torch.utils.data import DataLoader
 from toolformer.filtering import *
+from toolformer.finetune import *
 
 def load_model(ckpt_dir: str, tokenizer, local_rank: int, world_size: int, lora: bool) -> Transformer:
     checkpoints = sorted(Path(ckpt_dir).glob("*.pth"))
@@ -28,7 +29,7 @@ def load_model(ckpt_dir: str, tokenizer, local_rank: int, world_size: int, lora:
     return model
     
     
-def main(model_path, tokenizer_path, lr=1e-5, epochs=10, lora=True, opt=torch.optim.Adam):
+def main(model_path, tokenizer_path, dataset_path, save_path, lr=1e-5, epochs=10, lora=True, opt=torch.optim.Adam, do_finetune=False):
     # setup
     torch.manual_seed(1)
     torch.cuda.manual_seed_all(1)
@@ -49,7 +50,7 @@ def main(model_path, tokenizer_path, lr=1e-5, epochs=10, lora=True, opt=torch.op
     # data
     start_time = time.time()
     d = []
-    with open('/home/libs/toolformer/data/dataset.csv', 'r') as file: 
+    with open(dataset_path, 'r') as file: 
         reader = csv.reader(file)
         for row in reader: d.append(row)
     ds = PromptDS(d)
@@ -57,10 +58,17 @@ def main(model_path, tokenizer_path, lr=1e-5, epochs=10, lora=True, opt=torch.op
     
     # filter dataset for finetuning
     data = build_finetune_dataset(dl, model, tokenizer, return_tokens=False)
-    with open('/home/libs/toolformer/data/finetune_dataset.csv', 'w', newline='') as file: 
+    with open(f'{save_path}/finetune_dataset.csv', 'w', newline='') as file: 
         writer = csv.writer(file)
         for d in data: writer.writerow(d)
     print(f'Toolformer dataset of length {len(data)} created in {(time.time() - start_time) // 60} minutes and {(time.time() - start_time) % 60:.2f} seconds')
+    
+    # finetune
+    if do_finetune:
+        start_time = time.time()
+        dataset = FinetuneDS(data)
+        finetune(model, dataset, save_path, lr=lr, epochs=epochs, lora=lora)
+        print(f'Finetuning completed in {(time.time() - start_time) // 60} minutes and {(time.time() - start_time) % 60:.2f} seconds')
     
 if __name__ == "__main__":
     fire.Fire(main)

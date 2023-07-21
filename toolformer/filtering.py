@@ -53,10 +53,10 @@ def filter_and_retain_only_first_api(prompts:List[str], api_start_char:str, api_
                 prompt = prompt[:idx] + p
                 prompts_with_api_calls.append(prompt)
                 indexes.append(idx)
-        except Exception: print(p)
+        except Exception: pass
     return prompts_with_api_calls, indexes
 
-# %% ../nbs/05_toolformer.ipynb 10
+# %% ../nbs/05_toolformer.ipynb 13
 def format_api_calls(results, prompts, api_start_char:str, api_end_char:str, start_idxs:List[int]=None):
     prompts_with_responses = []
     s,e = api_start_char, api_end_char
@@ -69,7 +69,7 @@ def format_api_calls(results, prompts, api_start_char:str, api_end_char:str, sta
         prompts_with_responses.append(prompt)
     return prompts_with_responses
 
-# %% ../nbs/05_toolformer.ipynb 11
+# %% ../nbs/05_toolformer.ipynb 14
 def make_api_calls(prompts:List[str], api_start_char:str, api_end_char:str, start_idxs:List[int]=None):
     """
         Extracts a calculator API call in the format <start_char> api(expression) <end_char> from a string,
@@ -99,7 +99,7 @@ def make_api_calls(prompts:List[str], api_start_char:str, api_end_char:str, star
     prompts_with_responses = format_api_calls(results, prompts, api_start_char, api_end_char, start_idxs=start_idxs)
     return prompts_with_responses, indexes
 
-# %% ../nbs/05_toolformer.ipynb 13
+# %% ../nbs/05_toolformer.ipynb 16
 def get_probs(token_ids, logits):
     """
         Calculates a probability distribution over the vocabulary for each position
@@ -113,10 +113,10 @@ def get_probs(token_ids, logits):
     correct_token_id_pred_prob = probs.gather(-1, token_ids)
     return rearrange(correct_token_id_pred_prob, 'b n 1 -> b n')
 
-# %% ../nbs/05_toolformer.ipynb 14
+# %% ../nbs/05_toolformer.ipynb 17
 def weight_func(t): return (1. - t * 0.2).clamp(min=0.)
 
-# %% ../nbs/05_toolformer.ipynb 15
+# %% ../nbs/05_toolformer.ipynb 18
 def get_weights(tokens, search_token_id, pad_id=-1, weight_func=weight_func, start_index=None):
     """
         Searches for the search_token_id in the sequence, and produces a 
@@ -143,7 +143,7 @@ def get_weights(tokens, search_token_id, pad_id=-1, weight_func=weight_func, sta
     # now we have a weight vector like [1.2,1.2,1.2,1.2,1.2,1.2,1.2,(search_token_id)1,0.8,0.6,0.4,0.2,0,0,0,0...]
     return weights.masked_fill(weights == pad_id, 0.)
 
-# %% ../nbs/05_toolformer.ipynb 16
+# %% ../nbs/05_toolformer.ipynb 19
 def toolformer_probability_filter(tokens_without_api_calls, tokens_with_api_calls, tokens_with_api_responses, api_start_token, api_end_token, tau_filter=1., start_idxs=None, device='cuda'):
     # get the logits
     def add_dims(x): return x[None, :] if len(x.shape) < 2 else x
@@ -177,7 +177,7 @@ def toolformer_probability_filter(tokens_without_api_calls, tokens_with_api_call
     t_mask = (l_minus - l_plus) >= tau_filter
     return tokens_without_api_calls[t_mask], tokens_with_api_calls[t_mask], tokens_with_api_responses[t_mask]
 
-# %% ../nbs/05_toolformer.ipynb 17
+# %% ../nbs/05_toolformer.ipynb 20
 def sample(model, tokenizer, prompts: List[str], max_gen_len: int, temperature: float = 0.8, top_p: float = 0.95, decode=False, make_api_calls=False, device='cuda'):
     bsz = len(prompts)
     params = model.params
@@ -213,7 +213,7 @@ def sample(model, tokenizer, prompts: List[str], max_gen_len: int, temperature: 
         prev_pos = cur_pos
     return tokens if not decode else decode_tokens(tokenizer, tokens, prompt_tokens, max_gen_len)
 
-# %% ../nbs/05_toolformer.ipynb 18
+# %% ../nbs/05_toolformer.ipynb 21
 @torch.no_grad()
 def build_finetune_dataset(dataloader, model, tokenizer, api_start_char='<$', api_end_char='%>', return_tokens=True, device='cuda'):
     """
@@ -229,8 +229,8 @@ def build_finetune_dataset(dataloader, model, tokenizer, api_start_char='<$', ap
 
         # assemble the null prompts assuming no API calls
         prompts, (data_without_api_calls, start_idxs) = batch
-
         data_without_api_calls = [p + d for p,d in zip(prompts, data_without_api_calls)]
+        import pdb; pdb.set_trace()
 
         # generate samples with possible API calls, and filter to a single API call per prompt
         sampled_prompts = sample(model, tokenizer, prompts, max_gen_len=100, decode=True, device=device)
