@@ -14,6 +14,10 @@ from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader, default_collate
 from torch.nn import init
 from torch.nn.utils.rnn import pad_sequence
+from .model import *
+from .tokenizer import *
+from fastprogress import progress_bar
+from einops import rearrange
 
 # %% auto 0
 __all__ = ['get_gen', 'set_grads', 'save_model_weights', 'load_lora_weights', 'finetune', 'FinetuneDS']
@@ -49,26 +53,27 @@ def load_lora_weights(path, model):
     return
 
 # %% ../nbs/06_finetune.ipynb 7
-def finetune(model, dataset, save_path, lr=1e-5, epochs=10, bs=1, opt_func=optim.Adam, lora=True, device='cuda'):
+def finetune(model, dataset, save_path, lr=1e-5, epochs=10, bs=1, opt_func=partial(optim.Adam, eps=1e-5), lora=True, device='cuda'):
     assert len(dataset) > 0
     dl = DataLoader(dataset, batch_size=bs, shuffle=True, collate_fn=partial(pad_sequence, batch_first=True), num_workers=4)
 
     model.train()
     set_grads(model, set_grads_to=True, lora=lora)
     opt = opt_func([p for p in model.parameters() if p.requires_grad], lr)
-
+    
     for epoch in progress_bar(range(epochs), comment='finetuning...'):
         for i, batch in enumerate(progress_bar(dl, leave=False)):
-            inp, label = to_device(batch[:,:-1]), to_device(batch[:,1:])
-            logits = self.model(inp, 0)
+            inp, label = batch[:,:-1].to(device), batch[:,1:].to(device)
+            logits = model(inp, 0)
+            print(logits.isnan().float().mean())
             logits = rearrange(logits, 'b s v -> b v s')
-            loss = F.cross_entropy(logits, label, ignore_index=self.pad_id)
+            loss = F.cross_entropy(logits, label, ignore_index=tokenizer.pad_id)
             loss.backward()
             opt.step()
             opt.zero_grad()
 
-    set_grads(self.model, set_grads_to=False, lora=lora)
-    save_model_weights(save_path, self.model, lora=lora)
+    set_grads(model, set_grads_to=False, lora=lora)
+    save_model_weights(save_path, model, lora=lora)
 
 # %% ../nbs/06_finetune.ipynb 8
 class FinetuneDS:

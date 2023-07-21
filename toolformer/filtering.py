@@ -215,7 +215,7 @@ def sample(model, tokenizer, prompts: List[str], max_gen_len: int, temperature: 
 
 # %% ../nbs/05_toolformer.ipynb 18
 @torch.no_grad()
-def build_finetune_dataset(dataloader, model, tokenizer, api_start_char='<$', api_end_char='%>', return_tokens=True, device='cuda'):
+def build_finetune_dataset(dataloader, model, tokenizer, api_start_char='<%', api_end_char='%>', return_tokens=True, device='cuda'):
     """
         Samples API calls using in-context learning, and returns a dataset
         that contains only examples for which calling the API increased the 
@@ -230,7 +230,6 @@ def build_finetune_dataset(dataloader, model, tokenizer, api_start_char='<$', ap
         # assemble the null prompts assuming no API calls
         prompts, (data_without_api_calls, start_idxs) = batch
         data_without_api_calls = [p + d for p,d in zip(prompts, data_without_api_calls)]
-        import pdb; pdb.set_trace()
 
         # generate samples with possible API calls, and filter to a single API call per prompt
         sampled_prompts = sample(model, tokenizer, prompts, max_gen_len=100, decode=True, device=device)

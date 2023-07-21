@@ -308,9 +308,10 @@ class Transformer(nn.Module):
 
 # %% ../nbs/01_model.ipynb 14
 def sample_top_p(probs, p):
-    # if len(probs.shape) == 3 and probs.shape[-1]*probs.shape[-2] >= 2**24:
-    #     probs = probs[:,-1,:]
-    # else: probs = rearrange(probs, 'n s d -> n (s d)')
+    if len(probs.shape) == 3:
+        if probs.shape[-1]*probs.shape[-2] >= 2**24:
+            probs = probs[:,-1,:]
+        else: probs = rearrange(probs, 'n s d -> n (s d)')
     probs_sort, probs_idx = torch.sort(probs, dim=-1, descending=True)
     probs_sum = torch.cumsum(probs_sort, dim=-1)
     mask = probs_sum - probs_sort > p

@@ -1,0 +1,175 @@
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: There are 4.0 + 7.0 = 11.0 dahlias in the vase. In total there are 4.0 + 11.0 = 15.0 flowers in the vase.  
+Output:  There are 4.0 + 7.0 = <% Calculator(4.0 + 7.0) %> 11.0 dahlias in the vase. In total there are 4.0 + 11.0 =  15.0 flowers in the vase. 
+
+*/
+
+
+//#include ""config.h""
+#include <stdio."
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: It takes 3.0 minutes to dig a small hole and he needs to dig 30.0 small holes so it will take 3.0*30.0 = 90.0 minutes It takes 10.0 minutes to dig a large hole and he needs to dig 15.0 large holes so it will take him 10.0*15.0 = 150.0 minutes It will take 90.0 minutes to dig the small holes and 150.0 minutes to dig the large holes for a total of 90.0+150.0 = 240.0 minutes There are 60 minutes in 1 hour and he needs to dig for 240.0 minutes so that's 240.0/60 = 4.0 hours  
+Output: 
+  
+""""""
+
+
+def test_calculator():
+    l = []
+    test_inputs = [
+        {
+            'input': '2 + 2 = 4',
+            'output': '2 + 2 = 4'
+        },
+        {
+            'input': '2 + 2 = 4',
+            'output': '2 + 2 = <% Calculator(2 + 2) %> "
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: Total regular price for the blouses is $20.0 x 4.0 = $80.0. Total discount on the blouses is $80.0 x 30.0% = $24.0. Misha paid $80.0 - $24.0 = $56.0 for the discounted blouses.  
+Output:  Total regular price for the blouses is $20.0 x 4.0 = <% Calculator(20.0 * 4.0) %> 80.0. Total discount on the blouses is $80.0 x 30.0% =  24.0. Misha paid <% Calculator(80.0 - 24."
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: A bag of flour has 8.0 x 2.0 = 16.0 kilograms. So, there are 16.0 x 3.0 = 48.0 kilograms of flour in 3.0 bags.  
+Output:  A bag of flour has 8.0 x 2.0 = 16.0 kilograms. So, there are 16.0 x 3.0 = <% Calculator(8.0 * 2.0) %> 48.0 kilograms of flour in 3.0 bags. 
+*/
+
+/*
+A single call to the API should only return the text. 
+If it can't do"
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: He climbed 420.0 branches in total because 105.0 / 0.25 = 420.0. He climbed on average 420.0 / 7 = 60.0 branches a day.  
+Output:  He climbed 420.0 branches in total because 105.0 / 0.25 = <% Calculator(105.0 / 0.25) %> 420.0. He climbed on average 420.0 / 7 =  60.0 branches a day. 
+""""""
+
+import re
+
+
+def"
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: The number of microphones that were not able to find space on the stage is 20.0/100*50.0 = 10.0. This means the singer could set 50.0-10.0 = 40.0 microphones into pairs on the stage. Since a pair has 2 microphones, the singer set up 40.0/2 = 20.0 pairs of microphones on the stage.  
+Output: 
+The number of microphones that were not able to find space on the stage is <% Calculator(20.0 / 100 * 50.0) %> 10.0. This means the singer could set 50.0 - 10.0 = 40.0 microphones into pairs on the stage. Since a pair has 2 microphones, the singer set up 40.0 / 2 ="
+"Your task is to add calls to a Calculator API to a piece of text. 
+The calls should help you get information required to complete the text. 
+You can call the API by writing ""<% Calculator(expression) %>"" where ""expression"" is the expression to be computed.
+You should simply return the same text with the API call included.
+Here are some examples of API calls: 
+Input: The number in the next term is 18 + 12 x 3 = 54. 
+Output: The number in the next term is 18 + 12 x 3 = <% Calculator(18 + 12 * 3) %> 54. 
+Input: The population is 658,893 people. This is 11.4% of the national average of 5,763,868 people. 
+Output: The population is 658,893 people. This is 11.4% of the national average of <% Calculator(658,893 / 11.4) %> 5,763,868 people. 
+Input: A total of 252 qualifying matches were played, and 723 goals were scored (an average of 2.87 per match). This is three times less than the 2169 goals last year. 
+Output: A total of 252 qualifying matches were played, and 723 goals were scored (an average of <% Calculator(723 / 252) %> 2.87 per match). This is twenty goals more than the <% Calculator(723 - 20) %> 703 goals last year. 
+Input: I went to Paris in 1994 and stayed there until 2011, so in total, it was 17 years. 
+Output: I went to Paris in 1994 and stayed there until 2011, so in total, it was <% Calculator(2011 - 1994) %> 17 years. 
+Input: From this, we have 4 * 30 minutes = 120 minutes. 
+Output: From this, we have 4 * 30 minutes = <% Calculator(4 * 30) %> 120 minutes. 
+Input: There were 2000.0/10.0 = 200.0 bags of apples sold. Therefore, the orchard earned 200.0 x $5.0 = $1000.0.  
+Output: 2000.0/10.0 = 200.0 bags of apples sold. Therefore, the orchard earned 200.0 x $5.0 = <% Calculator(200.0 * 5) %> $1000.0. 
+Input: There were 4000.0/1000.0 = 4.0 bags of apples sold. Therefore, the"
+"Your task is to add calls to a Calendar API to a piece of text. 
+The API calls should help you get information required to complete the text. 
+You can call the API by writing <% Calendar() %>. 
+Here are some examples of API calls:
+Input: Today is the first Friday of the year.
+Output: Today is the first <% Calendar() %> Friday of the year.
+Input: The president of the United States is Joe Biden.
+Output: The president of the United States is <% Calendar() %> Joe Biden.
+Input: The current day of the week is Wednesday.
+Output: The current day of the week is <% Calendar() %> Wednesday.
+Input: The number of days from now until Christmas is 30.
+Output: The number of days from now until Christmas is <% Calendar() %> 30.
+Input: The store is never open on the weekend, so today it is closed.
+Output: The store is never open on the weekend, so today <% Calendar() %> it is closed.
+Input: What day of the month is Veterans Day this year?
+Output: 11/11 is Veterans Day this year.
+The calendar API is based on JavaScript. 
+You can call the calendar API by using . 
+
+// Change the above code to see the output in your browser console.
+var firstFriday = <% Calendar() %>(new Date(2012,0,1));
+console.log(firstFriday);
+console.log(new Date(2012"
